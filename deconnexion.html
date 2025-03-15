@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Déconnexion - Agri Connect</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #4CAF50;
+        }
+
+        p {
+            font-size: 18px;
+            color: #555;
+        }
+
+        a {
+            text-decoration: none;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: inline-block;
+        }
+
+        a:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Déconnexion réussie</h1>
+        <p>Vous avez été déconnecté avec succès de votre compte.</p>
+        <p>Vous allez être redirigé vers la page d'accueil dans quelques secondes...</p>
+        <a href="accueil.html">Retour à l'Accueil</a>
+    </div>
+
+    <script>
+        // Supprimer l'élément 'loggedIn' dès le chargement de la page de déconnexion
+        sessionStorage.removeItem('loggedIn');
+        
+        // Redirection automatique après 3 secondes
+        setTimeout(function() {
+            window.location.href = "accueil.html";
+        }, 3000);
+    </script>
+</body>
+</html>

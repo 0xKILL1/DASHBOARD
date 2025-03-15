@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphiques des données météo - Agri Connect</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        /* Style de la barre de navigation */
+        nav {
+            background-color: #4CAF50;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            margin: 0 15px;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .charts-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .chart-container {
+            width: 600px;
+            height: 400px;
+            margin: 20px;
+        }
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Section de support */
+        .support-section {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #e3f2fd;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+        <div>
+            <a href="accueil.html">Accueil</a>
+            <a href="dashboard.html">Graphiques Météo</a>
+        </div>
+        <div>
+            <a href="support.html">Support Agri Connect</a>
+            <a href="deconnexion.html">Déconnexion</a> <!-- Onglet de déconnexion ajouté -->
+        </div>
+    </nav>
+
+    <h1>Graphiques des Données Météo</h1>
+    <div class="charts-container" id="charts-container"></div>
+
+    <!-- Section de support Agri Connect -->
+    <div class="support-section" id="support">
+        <h2>Support Agri Connect</h2>
+        <p>Si vous avez des questions ou besoin d'assistance, n'hésitez pas à contacter notre équipe de support.</p>
+        <ul>
+            <li><strong>Email :</strong> support@agriconnect.com</li>
+            <li><strong>Téléphone :</strong> +33 1 23 45 67 89</li>
+            <li><strong>Forum :</strong> <a href="https://forum.agriconnect.com" target="_blank">forum.agriconnect.com</a></li>
+        </ul>
+        <p>Vous pouvez également consulter notre documentation pour plus d'informations sur les fonctionnalités.</p>
+    </div>
+
+    <script>
+        async function fetchData() {
+            try {
+                const response = await fetch('http://localhost:3000/metrics'); // URL de l'API
+                if (!response.ok) {
+                    throw new Error(`Erreur HTTP: ${response.status}`);
+                }
+                const data = await response.json();
+                return data;  // Retourne directement les données
+            } catch (error) {
+                console.error("Erreur lors de la récupération des données : ", error);
+                alert("Impossible de récupérer les données de l'API.");
+                return [];
+            }
+        }
+
+        async function generateCharts() {
+            const metrics = await fetchData();
+
+            // Vérifier si les données sont vides
+            if (metrics.length === 0) {
+                console.error("Aucune donnée disponible pour afficher les graphiques.");
+                return;
+            }
+
+            // Liste des couleurs pour chaque graphique
+            const colors = [
+                'rgba(75, 192, 192, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(153, 102, 255, 0.6)',
+                'rgba(255, 159, 64, 0.6)', 'rgba(255, 99, 132, 0.6)', 'rgba(255, 206, 86, 0.6)',
+                'rgba(123, 239, 178, 0.6)', 'rgba(237, 85, 101, 0.6)', 'rgba(128, 255, 212, 0.6)'
+            ];
+
+            // Types de graphiques différents à appliquer
+            const chartTypes = ['line', 'bar', 'radar', 'pie'];
+
+            // Créer un graphique pour chaque série de données (par exemple : humidité, température)
+            metrics.forEach((metric, index) => {
+                const labels = metric.values.map(item => new Date(item.date).toLocaleDateString());
+                const dataset = {
+                    label: metric.name,
+                    data: metric.values.map(item => item.value),
+                    backgroundColor: colors[index % colors.length], // Utiliser la couleur correspondante
+                    borderColor: colors[index % colors.length],
+                    borderWidth: 1
+                };
+
+                // Créer un conteneur pour chaque graphique
+                const chartContainer = document.createElement('div');
+                chartContainer.classList.add('chart-container');
+                document.getElementById('charts-container').appendChild(chartContainer);
+
+                // Ajouter le graphique pour chaque métrique avec un type différent
+                const canvas = document.createElement('canvas');
+                chartContainer.appendChild(canvas);
+
+                const ctx = canvas.getContext('2d');
+                new Chart(ctx, {
+                    type: chartTypes[index % chartTypes.length], // Choisir un type de graphique en fonction de l'indice
+                    data: {
+                        labels: labels,
+                        datasets: [dataset]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+        }
+
+        generateCharts();
+    </script>
+</body>
+</html>

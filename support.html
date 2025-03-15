@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire de Support Technique - Agri Connect</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background-color: #4CAF50;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            margin: 0 15px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .support-form {
+            background-color: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .support-form h2 {
+            color: #1E88E5;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .support-form label {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .support-form input,
+        .support-form textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .support-form button {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 18px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .support-form button:hover {
+            background-color: #45a049;
+        }
+
+        .message {
+            text-align: center;
+            color: #333;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+        <div>
+            <a href="accueil.html">Accueil</a>
+            <a href="dashboard.html">Graphiques Météo</a>
+        </div>
+        <div>
+            <a href="support.html">Support Technique</a>
+            <a href="logout.html">Déconnexion</a> <!-- Lien de déconnexion ajouté -->
+        </div>
+    </nav>
+
+    <!-- Container principal -->
+    <div class="container">
+        <h1>Formulaire de Support Technique - Agri Connect</h1>
+
+        <!-- Formulaire de Support -->
+        <div class="support-form" id="support">
+            <h2>Envoyez-nous votre demande</h2>
+            <p>Notre équipe est disponible 24h/24 pour vous aider. Remplissez le formulaire ci-dessous et nous reviendrons vers vous dans les plus brefs délais.</p>
+
+            <form id="support-form">
+                <label for="name">Votre Nom :</label>
+                <input type="text" id="name" name="name" placeholder="Entrez votre nom" required>
+
+                <label for="email">Votre Email :</label>
+                <input type="email" id="email" name="email" placeholder="Entrez votre email" required>
+
+                <label for="subject">Objet de votre demande :</label>
+                <input type="text" id="subject" name="subject" placeholder="Objet de la demande" required>
+
+                <label for="message">Votre Message :</label>
+                <textarea id="message" name="message" rows="6" placeholder="Décrivez votre problème ou demande" required></textarea>
+
+                <button type="submit">Envoyer</button>
+            </form>
+
+            <div class="message" id="message-box" style="display:none;">
+                <p>Merci pour votre demande ! Un membre de notre équipe vous répondra sous peu.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("support-form").addEventListener("submit", function(event) {
+            event.preventDefault(); // Empêche l'envoi du formulaire
+
+            // Afficher un message de confirmation
+            document.getElementById("support-form").reset(); // Réinitialiser le formulaire
+            document.getElementById("message-box").style.display = "block";
+        });
+    </script>
+</body>
+</html>
