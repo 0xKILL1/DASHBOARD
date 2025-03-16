@@ -92,7 +92,7 @@
     <script>
         async function fetchData() {
             try {
-                const response = await fetch('http://192.168.1.254:3000/metrics'); // URL de l'API
+                const response = await fetch('http://192.168.1.250:3000/metrics'); // URL de l'API
                 if (!response.ok) {
                     throw new Error(`Erreur HTTP: ${response.status}`);
                 }
